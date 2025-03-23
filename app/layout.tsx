@@ -23,23 +23,23 @@ const poiretOne = Poiret_One({
 
 export const metadata: Metadata = {
   title: {
-    default: "CryptoInsight | Premium Blockchain News & Analysis",
-    template: "%s | CryptoInsight",
+    default: "CryptoAware | Premium Blockchain News & Analysis",
+    template: "%s | CryptoAware",
   },
   description:
     "Stay ahead with the latest cryptocurrency news, blockchain insights, and market analysis from industry experts.",
   keywords:
     "crypto, blockchain, bitcoin, ethereum, cryptocurrency news, blockchain technology, market analysis, defi, nft",
-  authors: [{ name: "CryptoInsight Team" }],
-  creator: "CryptoInsight",
-  publisher: "CryptoInsight Media",
+  authors: [{ name: "CryptoAware Team" }],
+  creator: "CryptoAware",
+  publisher: "CryptoAware Media",
   robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://cryptoaware.site/",
-    siteName: "CryptoInsight",
-    title: "CryptoInsight | Premium Blockchain News & Analysis",
+    siteName: "CryptoAware",
+    title: "CryptoAware | Premium Blockchain News & Analysis",
     description:
       "Stay ahead with the latest cryptocurrency news, blockchain insights, and market analysis from industry experts.",
     images: [
@@ -47,13 +47,13 @@ export const metadata: Metadata = {
         url: "https://cryptoaware.site/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "CryptoInsight",
+        alt: "CryptoAware",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CryptoInsight | Premium Blockchain News & Analysis",
+    title: "CryptoAware | Premium Blockchain News & Analysis",
     description:
       "Stay ahead with the latest cryptocurrency news, blockchain insights, and market analysis from industry experts.",
     creator: "@cryptoinsight",
