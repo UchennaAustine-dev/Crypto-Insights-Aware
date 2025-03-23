@@ -19,7 +19,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <Link href="/" className="inline-block mb-4">
               <div className="text-2xl font-heading font-bold">
-                <span className="gradient-text">Crypto</span>
+                <span className="gradient-text font-heading">Crypto</span>
                 <span>Insight</span>
               </div>
             </Link>
