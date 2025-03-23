@@ -37,8 +37,10 @@ export default function Header() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <span className="gradient-text font-heading">Crypto</span>
-              <span>Insight</span>
+              <span className="gradient-text font-heading font-bold">
+                Crypto
+              </span>
+              <span>Aware</span>
             </motion.div>
           </Link>
 
