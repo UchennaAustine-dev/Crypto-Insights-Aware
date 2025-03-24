@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import TickerTape from "@/components/trading-view/ticker-tape";
+import Script from "next/script";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -79,6 +80,13 @@ export default function RootLayout({
           </main>
           <Footer />
         </ThemeProvider>
+        <Script id="aclib-auto-tag" strategy="afterInteractive">
+          {`
+            aclib.runAutoTag({
+              zoneId: 'q6kpb6njyd',
+            });
+          `}
+        </Script>
       </body>
     </html>
   );
