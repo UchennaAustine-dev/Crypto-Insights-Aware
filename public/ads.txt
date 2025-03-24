@@ -1,3 +1,5 @@
+google.com, pub-6776765198765434, DIRECT, f08c47fec0942fa0
+
 # Netpub Media
 # https://netpub.media
 # info@netpub.media

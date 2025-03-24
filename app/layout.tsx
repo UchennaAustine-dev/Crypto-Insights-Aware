@@ -70,6 +70,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* GDPR Compliance Script */}
+        <Script
+          id="gdpr-compliance"
+          strategy="afterInteractive"
+          src="https://fstatic.netpub.media/extra/cmp/cmp-gdpr.js"
+          rel="noopener noreferrer"
+        />
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YFF6ZK2CMH"
