@@ -69,6 +69,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YFF6ZK2CMH"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YFF6ZK2CMH');
+          `}
+        </Script>
+      </head>
       <body
         className={`${poppins.variable} ${poiretOne.variable} font-sans min-h-screen flex flex-col`}
       >
