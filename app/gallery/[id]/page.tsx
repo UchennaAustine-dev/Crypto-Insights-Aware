@@ -6,6 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Download, Share2, ThumbsUp, Bookmark } from "lucide-react";
+import ArticleAd from "@/components/ads/article-ad";
+import SidebarAd from "@/components/ads/sidebar-ad";
+import FooterAd from "@/components/ads/footer-ad";
 
 interface GalleryItemPageProps {
   params: {
@@ -37,121 +40,148 @@ export default async function GalleryItemPage({
 
   return (
     <div className="flex flex-col gap-8 py-8">
-      <div className="container mx-auto max-w-4xl">
-        <Link
-          href="/gallery"
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Gallery
-        </Link>
+      <div className="container mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-3/4">
+            <Link
+              href="/gallery"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Gallery
+            </Link>
 
-        <div className="flex flex-col gap-6">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              {item.title}
-            </h1>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {item.tags.map((tag, index) => (
-                <Badge key={index} variant="outline" className="rounded-sm">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative w-full rounded-lg overflow-hidden">
-            <Image
-              src={item.image || "/placeholder.svg"}
-              alt={item.title}
-              width={1200}
-              height={800}
-              className="w-full object-contain"
-              priority
-            />
-          </div>
-
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <Button variant="outline" className="gap-2">
-                <ThumbsUp className="h-4 w-4" />
-                Like
-              </Button>
-              <Button variant="outline" className="gap-2">
-                <Download className="h-4 w-4" />
-                Download
-              </Button>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" title="Share">
-                <Share2 className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" title="Bookmark">
-                <Bookmark className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div>
-            <h2 className="text-2xl font-heading font-bold mb-4">
-              About this Image
-            </h2>
-            <p className="text-muted-foreground mb-6">{item.description}</p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-6">
               <div>
-                <h3 className="text-lg font-medium mb-2">Details</h3>
-                <dl className="grid grid-cols-2 gap-2">
-                  <dt className="text-muted-foreground">Category</dt>
-                  <dd>{item.category}</dd>
-
-                  <dt className="text-muted-foreground">Created</dt>
-                  <dd>{item.created}</dd>
-
-                  <dt className="text-muted-foreground">Resolution</dt>
-                  <dd>{item.resolution}</dd>
-
-                  <dt className="text-muted-foreground">Format</dt>
-                  <dd>{item.format}</dd>
-                </dl>
+                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
+                  {item.title}
+                </h1>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {item.tags.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="rounded-sm">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
               </div>
 
-              <div>
-                <h3 className="text-lg font-medium mb-2">Creator</h3>
-                <p className="text-muted-foreground mb-2">
-                  {item.creator.name}
-                </p>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {item.creator.bio}
-                </p>
-                <Button variant="outline" asChild>
-                  <Link href={`/profile/${item.creator.id}`}>View Profile</Link>
-                </Button>
+              <div className="relative w-full rounded-lg overflow-hidden">
+                <Image
+                  src={item.image || "/placeholder.svg"}
+                  alt={item.title}
+                  width={1200}
+                  height={800}
+                  className="w-full object-contain"
+                  priority
+                />
               </div>
+
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <Button variant="outline" className="gap-2">
+                    <ThumbsUp className="h-4 w-4" />
+                    Like
+                  </Button>
+                  <Button variant="outline" className="gap-2">
+                    <Download className="h-4 w-4" />
+                    Download
+                  </Button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="icon" title="Share">
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" title="Bookmark">
+                    <Bookmark className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <ArticleAd />
+
+              <Separator />
+
+              <div>
+                <h2 className="text-2xl font-heading font-bold mb-4">
+                  About this Image
+                </h2>
+                <p className="text-muted-foreground mb-6">{item.description}</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">Details</h3>
+                    <dl className="grid grid-cols-2 gap-2">
+                      <dt className="text-muted-foreground">Category</dt>
+                      <dd>{item.category}</dd>
+
+                      <dt className="text-muted-foreground">Created</dt>
+                      <dd>{item.created}</dd>
+
+                      <dt className="text-muted-foreground">Resolution</dt>
+                      <dd>{item.resolution}</dd>
+
+                      <dt className="text-muted-foreground">Format</dt>
+                      <dd>{item.format}</dd>
+                    </dl>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">Creator</h3>
+                    <p className="text-muted-foreground mb-2">
+                      {item.creator.name}
+                    </p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {item.creator.bio}
+                    </p>
+                    <Button variant="outline" asChild>
+                      <Link href={`/profile/${item.creator.id}`}>
+                        View Profile
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <Card className="bg-muted/30 border-muted">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-heading font-bold mb-4">
+                    License Information
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    {item.license.description}
+                  </p>
+                  <Button variant="outline" asChild>
+                    <Link
+                      href={item.license.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Full License
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
-          <Card className="bg-muted/30 border-muted">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-heading font-bold mb-4">
-                License Information
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                {item.license.description}
-              </p>
-              <Button variant="outline" asChild>
-                <Link
-                  href={item.license.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Full License
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="lg:w-1/4 space-y-6">
+            <SidebarAd />
+
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-medium mb-3">Popular Categories</h3>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">Infographics</Badge>
+                  <Badge variant="secondary">Artwork</Badge>
+                  <Badge variant="secondary">Charts</Badge>
+                  <Badge variant="secondary">Memes</Badge>
+                  <Badge variant="secondary">3D Models</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <SidebarAd />
+          </div>
         </div>
       </div>
 
@@ -182,6 +212,8 @@ export default async function GalleryItemPage({
           ))}
         </div>
       </div>
+
+      <FooterAd />
     </div>
   );
 }

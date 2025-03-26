@@ -13,15 +13,15 @@ import { Badge } from "@/components/ui/badge";
 import {
   Search,
   BookOpen,
-  Lightbulb,
   TrendingUp,
-  Zap,
   Shield,
   Layers,
   Clock,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import NewsletterSignup from "@/components/newsletter-signup";
+import ArticleAd from "@/components/ads/article-ad";
+import FooterAd from "@/components/ads/footer-ad";
 
 export default function EducationPage() {
   return (
@@ -47,6 +47,8 @@ export default function EducationPage() {
           </div>
           <Button>Find Resources</Button>
         </div>
+
+        <ArticleAd />
 
         <Tabs defaultValue="beginners" className="w-full">
           <div className="flex justify-center mb-6">
@@ -147,36 +149,6 @@ export default function EducationPage() {
                         "https://images.pexels.com/photos/7567443/pexels-photo-7567443.jpeg",
                       readTime: "12 min read",
                     },
-                    {
-                      id: "crypto-security-basics",
-                      title: "Cryptocurrency Security Basics",
-                      description:
-                        "Essential security practices to protect your investments from hacks, scams, and theft.",
-                      icon: <Shield className="h-8 w-8 text-primary" />,
-                      image:
-                        "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg",
-                      readTime: "9 min read",
-                    },
-                    {
-                      id: "understanding-defi",
-                      title: "Understanding DeFi",
-                      description:
-                        "An introduction to Decentralized Finance and how it's revolutionizing financial services.",
-                      icon: <Zap className="h-8 w-8 text-primary" />,
-                      image:
-                        "https://images.pexels.com/photos/7788009/pexels-photo-7788009.jpeg",
-                      readTime: "11 min read",
-                    },
-                    {
-                      id: "nft-guide-beginners",
-                      title: "NFT Guide for Beginners",
-                      description:
-                        "Discover what Non-Fungible Tokens are and why they're transforming digital ownership.",
-                      icon: <Lightbulb className="h-8 w-8 text-primary" />,
-                      image:
-                        "https://images.pexels.com/photos/11053072/pexels-photo-11053072.jpeg",
-                      readTime: "10 min read",
-                    },
                   ].map((guide) => (
                     <Card
                       key={guide.id}
@@ -224,6 +196,8 @@ export default function EducationPage() {
                   ))}
                 </div>
               </div>
+
+              <ArticleAd />
 
               {/* Learning Paths */}
               <div>
@@ -423,6 +397,8 @@ export default function EducationPage() {
           </div>
         </div>
       </section>
+
+      <FooterAd />
 
       {/* Newsletter Section */}
       <section className="container mx-auto">

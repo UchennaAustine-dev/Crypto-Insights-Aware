@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
+import ArticleAd from "@/components/ads/article-ad";
+import FooterAd from "@/components/ads/footer-ad";
 
 export default function GalleryPage() {
   return (
@@ -27,6 +29,8 @@ export default function GalleryPage() {
             Filters
           </Button>
         </div>
+
+        <ArticleAd />
 
         <Tabs defaultValue="all" className="w-full">
           <div className="flex justify-center mb-6">
@@ -98,6 +102,38 @@ export default function GalleryPage() {
                     "https://images.pexels.com/photos/6771900/pexels-photo-6771900.jpeg",
                   category: "Charts",
                 },
+              ].map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/gallery/${item.id}`}
+                  className="group"
+                >
+                  <div className="relative group overflow-hidden rounded-lg">
+                    <Image
+                      src={item.image || "/placeholder.svg"}
+                      alt={item.title}
+                      width={300}
+                      height={300}
+                      className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <div>
+                        <p className="text-sm font-medium">{item.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {item.category}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="my-8">
+              <ArticleAd />
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[
                 {
                   id: 9,
                   title: "Bitcoin Halving Timeline",
@@ -166,6 +202,8 @@ export default function GalleryPage() {
           </TabsContent>
         </Tabs>
       </section>
+
+      <FooterAd />
 
       <section className="container mx-auto">
         <div className="bg-muted p-6 rounded-lg text-center">

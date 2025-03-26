@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +17,8 @@ import { Search, Filter, Clock, MessageSquare, ThumbsUp } from "lucide-react";
 import NewsletterSignup from "@/components/newsletter-signup";
 import { articles } from "@/lib/mock-data";
 import { createMetadata } from "@/lib/seo";
+import ArticleAd from "@/components/ads/article-ad";
+import FooterAd from "@/components/ads/footer-ad";
 
 export const metadata: Metadata = createMetadata(
   "Cryptocurrency News & Analysis",
@@ -156,13 +158,90 @@ export default function NewsPage() {
                 </div>
               </Card>
 
+              <ArticleAd />
+
               {/* News Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {articlesArray.slice(1).map((article, index) => {
+                {articlesArray.slice(1, 4).map((article, index) => {
                   const articleSlug = getArticleSlug(article);
                   return (
                     <Card
                       key={index}
+                      className="overflow-hidden hover:shadow-lg transition-shadow"
+                    >
+                      <div className="relative">
+                        <Image
+                          src={article.coverImage || "/placeholder.svg"}
+                          alt={`${article.title} thumbnail`}
+                          width={400}
+                          height={200}
+                          className="w-full h-48 object-cover"
+                        />
+                        <Badge className="absolute top-3 right-3 bg-primary">
+                          {article.category}
+                        </Badge>
+                      </div>
+                      <CardHeader className="p-4 pb-2">
+                        <CardTitle className="text-xl line-clamp-2">
+                          <Link
+                            href={`/news/${articleSlug}`}
+                            className="hover:text-primary transition-colors"
+                          >
+                            {article.title}
+                          </Link>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-4 pt-0">
+                        <p className="text-muted-foreground line-clamp-2 mb-4">
+                          {article.excerpt}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage
+                              src={article.author.image}
+                              alt={article.author.name}
+                            />
+                            <AvatarFallback>
+                              {article.author.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm text-muted-foreground">
+                            {article.author.name}, {article.author.role}
+                          </span>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="p-4 pt-0 flex justify-between text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{article.publishedAt}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-1">
+                            <MessageSquare className="h-4 w-4" />
+                            <span>{article.comments}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <ThumbsUp className="h-4 w-4" />
+                            <span>{article.likes}</span>
+                          </div>
+                        </div>
+                      </CardFooter>
+                    </Card>
+                  );
+                })}
+              </div>
+
+              <ArticleAd />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {articlesArray.slice(4).map((article, index) => {
+                  const articleSlug = getArticleSlug(article);
+                  return (
+                    <Card
+                      key={index + 4}
                       className="overflow-hidden hover:shadow-lg transition-shadow"
                     >
                       <div className="relative">
@@ -317,6 +396,8 @@ export default function NewsPage() {
           {/* Other category tabs would follow the same pattern */}
         </Tabs>
       </section>
+
+      <FooterAd />
 
       {/* Newsletter Section */}
       <section className="container mx-auto">

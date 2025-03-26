@@ -20,6 +20,8 @@ import {
   Filter,
   PlusCircle,
 } from "lucide-react";
+import ArticleAd from "@/components/ads/article-ad";
+import FooterAd from "@/components/ads/footer-ad";
 
 export default function ForumPage() {
   return (
@@ -51,6 +53,8 @@ export default function ForumPage() {
             </Button>
           </div>
         </div>
+
+        <ArticleAd />
 
         <Tabs defaultValue="all" className="w-full">
           <div className="flex justify-center mb-6">
@@ -120,6 +124,82 @@ export default function ForumPage() {
                   likes: 53,
                   isHot: true,
                 },
+              ].map((discussion) => (
+                <Card
+                  key={discussion.id}
+                  className="hover:shadow-md transition-shadow"
+                >
+                  <CardHeader className="p-4 pb-2">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <CardTitle className="text-xl">
+                          <Link
+                            href={`/forum/${discussion.id}`}
+                            className="hover:text-primary transition-colors"
+                          >
+                            {discussion.title}
+                          </Link>
+                          {discussion.isHot && (
+                            <Badge
+                              className="ml-2 bg-red-500"
+                              variant="secondary"
+                            >
+                              Hot
+                            </Badge>
+                          )}
+                        </CardTitle>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="outline" className="rounded-sm">
+                            {discussion.category}
+                          </Badge>
+                        </div>
+                      </div>
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage
+                          src={discussion.author.image}
+                          alt={discussion.author.name}
+                        />
+                        <AvatarFallback>
+                          {discussion.author.name[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-2">
+                    <p className="text-muted-foreground line-clamp-2 mb-2">
+                      {discussion.excerpt}
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span>{discussion.author.name}</span>
+                      <span>•</span>
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        <span>{discussion.time}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="p-4 pt-0 flex justify-between text-sm text-muted-foreground">
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1">
+                        <MessageSquare className="h-4 w-4" />
+                        <span>{discussion.replies} replies</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Eye className="h-4 w-4" />
+                        <span>{discussion.views} views</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <ThumbsUp className="h-4 w-4" />
+                      <span>{discussion.likes}</span>
+                    </div>
+                  </CardFooter>
+                </Card>
+              ))}
+
+              <ArticleAd />
+
+              {[
                 {
                   id: "nft-market-trends",
                   title: "NFT market trends for Q2 2025",
@@ -402,6 +482,8 @@ export default function ForumPage() {
           </Card>
         </div>
       </section>
+
+      <FooterAd />
     </div>
   );
 }

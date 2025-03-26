@@ -15,6 +15,9 @@ import {
   Clock,
   Reply,
 } from "lucide-react";
+import ArticleAd from "@/components/ads/article-ad";
+import FooterAd from "@/components/ads/footer-ad";
+import SidebarAd from "@/components/ads/sidebar-ad";
 
 interface DiscussionPageProps {
   params: {
@@ -43,159 +46,305 @@ export default async function DiscussionPage({ params }: DiscussionPageProps) {
   const slug = resolvedParams.slug;
   const discussion = getDiscussionData(params.slug);
 
+  // Find the middle of the content to insert an ad
+  const contentMiddleIndex = Math.floor(discussion.content.length / 2);
+  const contentParts = discussion.content.split("\n\n");
+  const firstHalf = contentParts
+    .slice(0, Math.ceil(contentParts.length / 2))
+    .join("\n\n");
+  const secondHalf = contentParts
+    .slice(Math.ceil(contentParts.length / 2))
+    .join("\n\n");
+
   return (
     <div className="flex flex-col gap-8 py-8">
-      <div className="container mx-auto max-w-4xl">
-        <Link
-          href="/forum"
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Forum
-        </Link>
+      <div className="container mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-3/4">
+            <Link
+              href="/forum"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Forum
+            </Link>
 
-        <div className="flex flex-col gap-6">
-          <div>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <Badge variant="outline" className="rounded-sm">
-                {discussion.category}
-              </Badge>
-              {discussion.tags.map((tag, index) => (
-                <Badge key={index} variant="secondary" className="rounded-sm">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-            <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              {discussion.title}
-            </h1>
-            <div className="flex items-center gap-4 mb-6">
-              <Avatar>
-                <AvatarImage
-                  src={discussion.author.image}
-                  alt={discussion.author.name}
-                />
-                <AvatarFallback>{discussion.author.name[0]}</AvatarFallback>
-              </Avatar>
+            <div className="flex flex-col gap-6">
               <div>
-                <div className="font-medium">{discussion.author.name}</div>
-                <div className="text-sm text-muted-foreground">
-                  Posted {discussion.createdAt}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <Badge variant="outline" className="rounded-sm">
+                    {discussion.category}
+                  </Badge>
+                  {discussion.tags.map((tag, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="rounded-sm"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                {discussion.content.split("\n\n").map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-
-              <div className="flex justify-between items-center mt-6">
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="gap-1">
-                    <ThumbsUp className="h-4 w-4" />
-                    <span>{discussion.likes}</span>
-                  </Button>
-                  <Button variant="outline" size="sm" className="gap-1">
-                    <ThumbsDown className="h-4 w-4" />
-                    <span>{discussion.dislikes}</span>
-                  </Button>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm" className="gap-1">
-                    <Share2 className="h-4 w-4" />
-                    Share
-                  </Button>
-                  <Button variant="ghost" size="sm" className="gap-1">
-                    <Flag className="h-4 w-4" />
-                    Report
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div>
-            <h2 className="text-2xl font-heading font-bold mb-4">
-              Replies ({discussion.replies.length})
-            </h2>
-
-            <div className="flex flex-col gap-4">
-              {discussion.replies.map((reply, index) => (
-                <Card
-                  key={index}
-                  className={reply.isHighlighted ? "border-primary" : ""}
-                >
-                  <CardHeader className="p-4 pb-2">
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-center gap-3">
-                        <Avatar>
-                          <AvatarImage
-                            src={reply.author.image}
-                            alt={reply.author.name}
-                          />
-                          <AvatarFallback>
-                            {reply.author.name[0]}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium">{reply.author.name}</div>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Clock className="h-3 w-3" />
-                            <span>{reply.createdAt}</span>
-                          </div>
-                        </div>
-                      </div>
-                      {reply.isHighlighted && (
-                        <Badge className="bg-primary">Best Reply</Badge>
-                      )}
+                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
+                  {discussion.title}
+                </h1>
+                <div className="flex items-center gap-4 mb-6">
+                  <Avatar>
+                    <AvatarImage
+                      src={discussion.author.image}
+                      alt={discussion.author.name}
+                    />
+                    <AvatarFallback>{discussion.author.name[0]}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="font-medium">{discussion.author.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Posted {discussion.createdAt}
                     </div>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-2">
-                    <div className="prose dark:prose-invert max-w-none">
-                      {reply.content.split("\n\n").map((paragraph, i) => (
-                        <p key={i}>{paragraph}</p>
-                      ))}
-                    </div>
+                  </div>
+                </div>
+              </div>
 
-                    <div className="flex justify-between items-center mt-4">
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="gap-1">
-                          <ThumbsUp className="h-4 w-4" />
-                          <span>{reply.likes}</span>
-                        </Button>
-                        <Button variant="ghost" size="sm" className="gap-1">
-                          <Reply className="h-4 w-4" />
-                          Reply
-                        </Button>
-                      </div>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="prose prose-lg dark:prose-invert max-w-none">
+                    {firstHalf.split("\n\n").map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+                  <div className="my-6">
+                    <ArticleAd />
+                  </div>
+
+                  <div className="prose prose-lg dark:prose-invert max-w-none">
+                    {secondHalf.split("\n\n").map((paragraph, index) => (
+                      <p key={index + Math.ceil(contentParts.length / 2)}>
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-between items-center mt-6">
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" className="gap-1">
+                        <ThumbsUp className="h-4 w-4" />
+                        <span>{discussion.likes}</span>
+                      </Button>
+                      <Button variant="outline" size="sm" className="gap-1">
+                        <ThumbsDown className="h-4 w-4" />
+                        <span>{discussion.dislikes}</span>
+                      </Button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button variant="ghost" size="sm" className="gap-1">
+                        <Share2 className="h-4 w-4" />
+                        Share
+                      </Button>
                       <Button variant="ghost" size="sm" className="gap-1">
                         <Flag className="h-4 w-4" />
                         Report
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div>
+                <h2 className="text-2xl font-heading font-bold mb-4">
+                  Replies ({discussion.replies.length})
+                </h2>
+
+                <div className="flex flex-col gap-4">
+                  {discussion.replies
+                    .slice(0, Math.ceil(discussion.replies.length / 2))
+                    .map((reply, index) => (
+                      <Card
+                        key={index}
+                        className={reply.isHighlighted ? "border-primary" : ""}
+                      >
+                        <CardHeader className="p-4 pb-2">
+                          <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-3">
+                              <Avatar>
+                                <AvatarImage
+                                  src={reply.author.image}
+                                  alt={reply.author.name}
+                                />
+                                <AvatarFallback>
+                                  {reply.author.name[0]}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <div className="font-medium">
+                                  {reply.author.name}
+                                </div>
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Clock className="h-3 w-3" />
+                                  <span>{reply.createdAt}</span>
+                                </div>
+                              </div>
+                            </div>
+                            {reply.isHighlighted && (
+                              <Badge className="bg-primary">Best Reply</Badge>
+                            )}
+                          </div>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-2">
+                          <div className="prose dark:prose-invert max-w-none">
+                            {reply.content.split("\n\n").map((paragraph, i) => (
+                              <p key={i}>{paragraph}</p>
+                            ))}
+                          </div>
+
+                          <div className="flex justify-between items-center mt-4">
+                            <div className="flex items-center gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1"
+                              >
+                                <ThumbsUp className="h-4 w-4" />
+                                <span>{reply.likes}</span>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1"
+                              >
+                                <Reply className="h-4 w-4" />
+                                Reply
+                              </Button>
+                            </div>
+                            <Button variant="ghost" size="sm" className="gap-1">
+                              <Flag className="h-4 w-4" />
+                              Report
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+
+                  <ArticleAd />
+
+                  {discussion.replies
+                    .slice(Math.ceil(discussion.replies.length / 2))
+                    .map((reply, index) => (
+                      <Card
+                        key={index + Math.ceil(discussion.replies.length / 2)}
+                        className={reply.isHighlighted ? "border-primary" : ""}
+                      >
+                        <CardHeader className="p-4 pb-2">
+                          <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-3">
+                              <Avatar>
+                                <AvatarImage
+                                  src={reply.author.image}
+                                  alt={reply.author.name}
+                                />
+                                <AvatarFallback>
+                                  {reply.author.name[0]}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <div className="font-medium">
+                                  {reply.author.name}
+                                </div>
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Clock className="h-3 w-3" />
+                                  <span>{reply.createdAt}</span>
+                                </div>
+                              </div>
+                            </div>
+                            {reply.isHighlighted && (
+                              <Badge className="bg-primary">Best Reply</Badge>
+                            )}
+                          </div>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-2">
+                          <div className="prose dark:prose-invert max-w-none">
+                            {reply.content.split("\n\n").map((paragraph, i) => (
+                              <p key={i}>{paragraph}</p>
+                            ))}
+                          </div>
+
+                          <div className="flex justify-between items-center mt-4">
+                            <div className="flex items-center gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1"
+                              >
+                                <ThumbsUp className="h-4 w-4" />
+                                <span>{reply.likes}</span>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1"
+                              >
+                                <Reply className="h-4 w-4" />
+                                Reply
+                              </Button>
+                            </div>
+                            <Button variant="ghost" size="sm" className="gap-1">
+                              <Flag className="h-4 w-4" />
+                              Report
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                </div>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Leave a Reply</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    placeholder="Share your thoughts..."
+                    className="min-h-[150px] mb-4"
+                  />
+                  <Button>Post Reply</Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Leave a Reply</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                placeholder="Share your thoughts..."
-                className="min-h-[150px] mb-4"
-              />
-              <Button>Post Reply</Button>
-            </CardContent>
-          </Card>
+          <div className="lg:w-1/4 space-y-6">
+            <SidebarAd />
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Discussion Stats</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Views</span>
+                    <span className="font-medium">324</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Replies</span>
+                    <span className="font-medium">
+                      {discussion.replies.length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Likes</span>
+                    <span className="font-medium">{discussion.likes}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Created</span>
+                    <span className="font-medium">{discussion.createdAt}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <SidebarAd />
+          </div>
         </div>
       </div>
 
@@ -240,6 +389,8 @@ export default async function DiscussionPage({ params }: DiscussionPageProps) {
           ))}
         </div>
       </div>
+
+      <FooterAd />
     </div>
   );
 }

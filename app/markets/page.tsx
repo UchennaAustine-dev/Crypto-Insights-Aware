@@ -7,6 +7,8 @@ import { ArrowDown, ArrowUp, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import MarketOverview from "@/components/trading-view/market-overview";
 import AdvancedChart from "@/components/trading-view/advanced-chart";
+import ArticleAd from "@/components/ads/article-ad";
+import FooterAd from "@/components/ads/footer-ad";
 
 export default function MarketsPage() {
   return (
@@ -34,6 +36,8 @@ export default function MarketsPage() {
             <Button>Add Coin</Button>
           </div>
         </div>
+
+        <ArticleAd />
 
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="mb-6">
@@ -258,6 +262,8 @@ export default function MarketsPage() {
                 </CardContent>
               </Card>
 
+              <ArticleAd />
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <MarketOverview height={500} title="Market Overview" />
                 <AdvancedChart
@@ -288,6 +294,8 @@ export default function MarketsPage() {
           </TabsContent>
         </Tabs>
       </section>
+
+      <FooterAd />
     </div>
   );
 }
