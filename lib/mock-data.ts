@@ -1180,40 +1180,349 @@ export const discussions = {
 };
 
 // Mock data for gallery items
-export const galleryItems = {
-  "1": {
-    id: "1",
-    title: "Bitcoin Network Visualization",
+export const galleryItems = [
+  {
+    id: "crypto-art-1",
+    title: "Abstract Bitcoin",
     description:
-      "This visualization represents the Bitcoin blockchain network, showing the interconnections between nodes and the flow of transactions. The vibrant blue lines represent active transactions, while the nodes are sized according to their importance in the network.",
-    image: "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg",
-    category: "Infographics",
-    tags: ["Bitcoin", "Blockchain", "Network", "Visualization"],
-    created: "March 15, 2025",
-    resolution: "3840 x 2160 px",
+      "An abstract representation of Bitcoin's decentralized nature.",
+    image: "https://images.pexels.com/photos/7567443/pexels-photo-7567443.jpeg",
+    category: "Art",
+    tags: ["Bitcoin", "Abstract", "Digital Art"],
+    created: "March 1, 2025",
+    resolution: "4096x4096",
     format: "PNG",
+    creator: {
+      id: "artist-1",
+      name: "Jane Doe",
+      bio: "Digital artist specializing in crypto-themed artwork.",
+    },
     license: {
-      description:
-        "This image is licensed under Creative Commons Attribution 4.0 International License. You are free to share and adapt the material with appropriate attribution.",
+      description: "Creative Commons Attribution 4.0 International",
       url: "https://creativecommons.org/licenses/by/4.0/",
     },
-    creator: {
-      id: "crypto-artist-1",
-      name: "Alex Johnson",
-      bio: "Digital artist specializing in blockchain and cryptocurrency visualizations. Alex has been creating crypto art since 2017.",
-    },
-    related: [
-      {
-        id: "2",
-        title: "Ethereum Smart Contract Flow",
-        image:
-          "https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg",
-      },
-      // Additional related items would be here
-    ],
   },
-  // Additional gallery items would be here
-};
+  {
+    id: "blockchain-infographic-1",
+    title: "Blockchain Explained",
+    description: "A visual guide to understanding blockchain technology.",
+    image: "https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg",
+    category: "Infographics",
+    tags: ["Blockchain", "Infographic", "Technology"],
+    created: "March 5, 2025",
+    resolution: "1920x1080",
+    format: "JPG",
+    creator: {
+      id: "designer-1",
+      name: "Michael Smith",
+      bio: "Information designer focused on making complex topics accessible.",
+    },
+    license: {
+      description: "All rights reserved",
+      url: "#",
+    },
+  },
+  {
+    id: "crypto-mining-setup-1",
+    title: "Crypto Mining Setup",
+    description: "An illustration of a cryptocurrency mining operation.",
+    image: "https://images.pexels.com/photos/1036637/pexels-photo-1036637.jpeg",
+    category: "Illustrations",
+    tags: ["Mining", "Hardware", "Cryptocurrency"],
+    created: "March 10, 2025",
+    resolution: "3840x2160",
+    format: "PNG",
+    creator: {
+      id: "illustrator-1",
+      name: "Sarah Johnson",
+      bio: "Illustrator with a passion for technology and finance.",
+    },
+    license: {
+      description: "Commercial use allowed",
+      url: "#",
+    },
+  },
+  {
+    id: "defi-dashboard-1",
+    title: "DeFi Dashboard",
+    description:
+      "A modern dashboard for tracking decentralized finance metrics.",
+    image: "https://images.pexels.com/photos/7788009/pexels-photo-7788009.jpeg",
+    category: "UI Design",
+    tags: ["DeFi", "Dashboard", "UI"],
+    created: "March 15, 2025",
+    resolution: "1920x1200",
+    format: "JPG",
+    creator: {
+      id: "ui-designer-1",
+      name: "David Lee",
+      bio: "UI/UX designer specializing in financial applications.",
+    },
+    license: {
+      description: "Attribution required",
+      url: "#",
+    },
+  },
+  {
+    id: "nft-collection-1",
+    title: "NFT Collection Showcase",
+    description: "A showcase of various NFT collectibles.",
+    image:
+      "https://images.pexels.com/photos/11053072/pexels-photo-11053072.jpeg",
+    category: "NFTs",
+    tags: ["NFT", "Collectibles", "Digital Art"],
+    created: "March 20, 2025",
+    resolution: "2048x2048",
+    format: "PNG",
+    creator: {
+      id: "nft-artist-1",
+      name: "Emily Chen",
+      bio: "NFT artist and digital creator.",
+    },
+    license: {
+      description: "Limited commercial use",
+      url: "#",
+    },
+  },
+  {
+    id: "crypto-trading-chart-1",
+    title: "Crypto Trading Chart",
+    description: "A detailed chart showing cryptocurrency trading data.",
+    image: "https://images.pexels.com/photos/6771900/pexels-photo-6771900.jpeg",
+    category: "Charts",
+    tags: ["Trading", "Chart", "Data"],
+    created: "March 25, 2025",
+    resolution: "2560x1440",
+    format: "JPG",
+    creator: {
+      id: "data-analyst-1",
+      name: "Robert Kim",
+      bio: "Data analyst specializing in cryptocurrency markets.",
+    },
+    license: {
+      description: "Non-commercial use only",
+      url: "#",
+    },
+  },
+  {
+    id: "metaverse-landscape-1",
+    title: "Metaverse Landscape",
+    description: "A landscape view of a virtual world in the metaverse.",
+    image: "https://images.pexels.com/photos/8370784/pexels-photo-8370784.jpeg",
+    category: "Metaverse",
+    tags: ["Metaverse", "Virtual World", "Landscape"],
+    created: "March 28, 2025",
+    resolution: "3840x2160",
+    format: "PNG",
+    creator: {
+      id: "metaverse-designer-1",
+      name: "Alice Brown",
+      bio: "Metaverse designer and virtual world architect.",
+    },
+    license: {
+      description: "Attribution required",
+      url: "#",
+    },
+  },
+  {
+    id: "blockchain-security-1",
+    title: "Blockchain Security Concept",
+    description: "A conceptual illustration of blockchain security features.",
+    image: "https://images.pexels.com/photos/6802042/pexels-photo-6802042.jpeg",
+    category: "Illustrations",
+    tags: ["Blockchain", "Security", "Cryptography"],
+    created: "March 30, 2025",
+    resolution: "3000x2000",
+    format: "JPG",
+    creator: {
+      id: "security-expert-1",
+      name: "Chris Wilson",
+      bio: "Blockchain security expert and cryptography enthusiast.",
+    },
+    license: {
+      description: "All rights reserved",
+      url: "#",
+    },
+  },
+  {
+    id: "crypto-art-2",
+    title: "Ethereum Abstraction",
+    description: "An abstract artwork inspired by Ethereum.",
+    image: "https://images.pexels.com/photos/9900270/pexels-photo-9900270.jpeg",
+    category: "Art",
+    tags: ["Ethereum", "Abstract", "Digital Art"],
+    created: "April 1, 2025",
+    resolution: "4096x4096",
+    format: "PNG",
+    creator: {
+      id: "artist-2",
+      name: "Bob Williams",
+      bio: "Digital artist specializing in crypto-themed artwork.",
+    },
+    license: {
+      description: "Creative Commons Attribution 4.0 International",
+      url: "https://creativecommons.org/licenses/by/4.0/",
+    },
+  },
+  {
+    id: "blockchain-infographic-2",
+    title: "DeFi Ecosystem",
+    description:
+      "A visual representation of the Decentralized Finance ecosystem.",
+    image: "https://images.pexels.com/photos/768128/pexels-photo-768128.jpeg",
+    category: "Infographics",
+    tags: ["DeFi", "Infographic", "Finance"],
+    created: "April 5, 2025",
+    resolution: "1920x1080",
+    format: "JPG",
+    creator: {
+      id: "designer-2",
+      name: "Emily Davis",
+      bio: "Information designer focused on making complex topics accessible.",
+    },
+    license: {
+      description: "All rights reserved",
+      url: "#",
+    },
+  },
+  {
+    id: "crypto-mining-setup-2",
+    title: "Sustainable Crypto Mining",
+    description:
+      "An illustration of a cryptocurrency mining operation powered by renewable energy.",
+    image: "https://images.pexels.com/photos/3952065/pexels-photo-3952065.jpeg",
+    category: "Illustrations",
+    tags: ["Mining", "Renewable Energy", "Cryptocurrency"],
+    created: "April 10, 2025",
+    resolution: "3840x2160",
+    format: "PNG",
+    creator: {
+      id: "illustrator-2",
+      name: "Tom Wilson",
+      bio: "Illustrator with a passion for technology and finance.",
+    },
+    license: {
+      description: "Commercial use allowed",
+      url: "#",
+    },
+  },
+  {
+    id: "defi-dashboard-2",
+    title: "Yield Farming Dashboard",
+    description: "A user interface for managing yield farming strategies.",
+    image:
+      "https://images.pexels.com/photos/11036680/pexels-photo-11036680.jpeg",
+    category: "UI Design",
+    tags: ["DeFi", "Dashboard", "UI"],
+    created: "April 15, 2025",
+    resolution: "1920x1200",
+    format: "JPG",
+    creator: {
+      id: "ui-designer-2",
+      name: "Sophia Garcia",
+      bio: "UI/UX designer specializing in financial applications.",
+    },
+    license: {
+      description: "Attribution required",
+      url: "#",
+    },
+  },
+  {
+    id: "nft-collection-2",
+    title: "Generative Art NFTs",
+    description: "A collection of generative art NFTs.",
+    image:
+      "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg",
+    category: "NFTs",
+    tags: ["NFT", "Generative Art", "Digital Art"],
+    created: "April 20, 2025",
+    resolution: "2048x2048",
+    format: "PNG",
+    creator: {
+      id: "nft-artist-2",
+      name: "Ethan Rodriguez",
+      bio: "NFT artist and digital creator.",
+    },
+    license: {
+      description: "Limited commercial use",
+      url: "#",
+    },
+  },
+  {
+    id: "crypto-trading-chart-2",
+    title: "Ethereum Price Analysis",
+    description: "A chart analyzing Ethereum's price movements.",
+    image: "https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg",
+    category: "Charts",
+    tags: ["Trading", "Chart", "Data"],
+    created: "April 25, 2025",
+    resolution: "2560x1440",
+    format: "JPG",
+    creator: {
+      id: "data-analyst-2",
+      name: "Olivia Martinez",
+      bio: "Data analyst specializing in cryptocurrency markets.",
+    },
+    license: {
+      description: "Non-commercial use only",
+      url: "#",
+    },
+  },
+  {
+    id: "metaverse-landscape-2",
+    title: "Virtual Cityscape",
+    description: "A cityscape in a virtual metaverse world.",
+    image:
+      "https://images.pexels.com/photos/11036679/pexels-photo-11036679.jpeg",
+    category: "Metaverse",
+    tags: ["Metaverse", "Virtual World", "Cityscape"],
+    created: "April 28, 2025",
+    resolution: "3840x2160",
+    format: "PNG",
+    creator: {
+      id: "metaverse-designer-2",
+      name: "Liam Anderson",
+      bio: "Metaverse designer and virtual world architect.",
+    },
+    license: {
+      description: "Attribution required",
+      url: "#",
+    },
+  },
+  {
+    id: "blockchain-security-2",
+    title: "Secure Blockchain Transactions",
+    description: "An illustration of secure transactions on a blockchain.",
+    image:
+      "https://images.pexels.com/photos/11036681/pexels-photo-11036681.jpeg",
+    category: "Illustrations",
+    tags: ["Blockchain", "Security", "Transactions"],
+    created: "April 30, 2025",
+    resolution: "3000x2000",
+    format: "JPG",
+    creator: {
+      id: "security-expert-2",
+      name: "Ava Thomas",
+      bio: "Blockchain security expert and cryptography enthusiast.",
+    },
+    license: {
+      description: "All rights reserved",
+      url: "#",
+    },
+  },
+];
+
+export function getRelatedGalleryItems(itemId: string) {
+  const item = galleryItems.find((item) => item.id === itemId);
+  if (!item) return [];
+
+  return galleryItems
+    .filter(
+      (relatedItem) =>
+        relatedItem.category === item.category && relatedItem.id !== itemId
+    )
+    .slice(0, 4);
+}
 
 // Mock data for user profiles
 export const profiles = {

@@ -9,6 +9,7 @@ import { ArrowLeft, Download, Share2, ThumbsUp, Bookmark } from "lucide-react";
 import ArticleAd from "@/components/ads/article-ad";
 import SidebarAd from "@/components/ads/sidebar-ad";
 import FooterAd from "@/components/ads/footer-ad";
+import { galleryItems, getRelatedGalleryItems } from "@/lib/mock-data";
 
 interface GalleryItemPageProps {
   params: {
@@ -22,7 +23,14 @@ export async function generateMetadata({
   // In a real app, you would fetch this data from an API
   const resolvedParams = await Promise.resolve(params);
   const id = resolvedParams.id;
-  const item = await getGalleryItemData(id);
+  const item = await galleryItems.find((item) => item.id === id);
+
+  if (!item) {
+    return {
+      title: "Gallery Item Not Found | CryptoInsight Gallery",
+      description: "The requested gallery item could not be found.",
+    };
+  }
 
   return {
     title: `${item.title} | CryptoInsight Gallery`,
@@ -36,7 +44,27 @@ export default async function GalleryItemPage({
 }: GalleryItemPageProps) {
   const resolvedParams = await Promise.resolve(params);
   const id = resolvedParams.id;
-  const item = await getGalleryItemData(id);
+  const item = await galleryItems.find((item) => item.id === id);
+
+  // Get related items
+  const relatedItems = getRelatedGalleryItems(id);
+
+  // Handle case where item is not found
+  if (!item) {
+    return (
+      <div className="container mx-auto py-16 text-center">
+        <h1 className="text-3xl font-heading font-bold mb-4">
+          Gallery Item Not Found
+        </h1>
+        <p className="text-muted-foreground mb-8">
+          The gallery item you're looking for doesn't exist or has been removed.
+        </p>
+        <Button asChild>
+          <Link href="/gallery">Back to Gallery</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8 py-8">
@@ -171,11 +199,13 @@ export default async function GalleryItemPage({
               <CardContent className="p-4">
                 <h3 className="font-medium mb-3">Popular Categories</h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">Infographics</Badge>
-                  <Badge variant="secondary">Artwork</Badge>
-                  <Badge variant="secondary">Charts</Badge>
-                  <Badge variant="secondary">Memes</Badge>
-                  <Badge variant="secondary">3D Models</Badge>
+                  {Array.from(
+                    new Set(galleryItems.map((item) => item.category))
+                  ).map((category) => (
+                    <Badge key={category} variant="secondary">
+                      {category}
+                    </Badge>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -190,9 +220,9 @@ export default async function GalleryItemPage({
           More Like This
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {item.related.map((relatedItem, index) => (
+          {relatedItems.map((relatedItem) => (
             <Link
-              key={index}
+              key={relatedItem.id}
               href={`/gallery/${relatedItem.id}`}
               className="group"
             >
@@ -216,56 +246,4 @@ export default async function GalleryItemPage({
       <FooterAd />
     </div>
   );
-}
-
-// Mock data function - in a real app, you would fetch this from an API
-async function getGalleryItemData(id: string) {
-  return {
-    id: id,
-    title: "Bitcoin Network Visualization",
-    description:
-      "This visualization represents the Bitcoin blockchain network, showing the interconnections between nodes and the flow of transactions. The vibrant blue lines represent active transactions, while the nodes are sized according to their importance in the network.",
-    image: "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg",
-    category: "Infographics",
-    tags: ["Bitcoin", "Blockchain", "Network", "Visualization"],
-    created: "March 15, 2025",
-    resolution: "3840 x 2160 px",
-    format: "PNG",
-    license: {
-      description:
-        "This image is licensed under Creative Commons Attribution 4.0 International License. You are free to share and adapt the material with appropriate attribution.",
-      url: "https://creativecommons.org/licenses/by/4.0/",
-    },
-    creator: {
-      id: "crypto-artist-1",
-      name: "Alex Johnson",
-      bio: "Digital artist specializing in blockchain and cryptocurrency visualizations. Alex has been creating crypto art since 2017.",
-    },
-    related: [
-      {
-        id: "2",
-        title: "Ethereum Smart Contract Flow",
-        image:
-          "https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg",
-      },
-      {
-        id: "5",
-        title: "DeFi Ecosystem Map",
-        image:
-          "https://images.pexels.com/photos/7788009/pexels-photo-7788009.jpeg",
-      },
-      {
-        id: "7",
-        title: "Mining Farm Visualization",
-        image:
-          "https://images.pexels.com/photos/1036637/pexels-photo-1036637.jpeg",
-      },
-      {
-        id: "9",
-        title: "Bitcoin Halving Timeline",
-        image:
-          "https://images.pexels.com/photos/7567443/pexels-photo-7567443.jpeg",
-      },
-    ],
-  };
 }
