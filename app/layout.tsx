@@ -73,7 +73,7 @@ export default function RootLayout({
         {/* GDPR Compliance Script */}
         <Script
           id="gdpr-compliance"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
           src="https://fstatic.netpub.media/extra/cmp/cmp-gdpr.js"
           rel="noopener noreferrer"
         />
