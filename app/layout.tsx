@@ -94,7 +94,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${poiretOne.variable} font-sans min-h-screen flex flex-col`}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <TickerTape />
           <Header />
           <main className="flex-grow flex justify-center">
