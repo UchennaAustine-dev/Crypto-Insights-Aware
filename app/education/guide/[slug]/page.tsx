@@ -18,6 +18,8 @@ import NewsletterSignup from "@/components/newsletter-signup";
 import ArticleAd from "@/components/ads/article-ad";
 import FooterAd from "@/components/ads/footer-ad";
 import SidebarAd from "@/components/ads/sidebar-ad";
+import JsonLd from "@/components/json-ld";
+import { createArticleJsonLd, createBreadcrumbJsonLd } from "@/lib/seo";
 
 interface GuidePageProps {
   params: {
@@ -48,337 +50,371 @@ export default async function GuidePage({ params }: GuidePageProps) {
   // Find the middle of the content to insert an ad
   const contentMiddleIndex = Math.floor(guide.content.length / 2);
 
+  // Create structured data for the guide
+  const guideJsonLd = createArticleJsonLd(
+    guide.title,
+    guide.excerpt,
+    `https://www.cryptoaware.site/education/guide/${params.slug}`,
+    guide.coverImage,
+    "2025-03-15", // Use actual date if available
+    "2025-03-15", // Use actual date if available
+    "CryptoInsight Education Team"
+  );
+
+  // Create breadcrumb structured data
+  const breadcrumbJsonLd = createBreadcrumbJsonLd([
+    { name: "Home", url: "https://www.cryptoaware.site" },
+    { name: "Education", url: "https://www.cryptoaware.site/education" },
+    {
+      name: guide.title,
+      url: `https://www.cryptoaware.site/education/guide/${params.slug}`,
+    },
+  ]);
   return (
-    <div className="flex flex-col gap-8 py-8">
-      <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-3/4">
-            <Link
-              href="/education"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Education Center
-            </Link>
+    <>
+      <JsonLd data={guideJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
+      <div className="flex flex-col gap-8 py-8">
+        <div className="container mx-auto">
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="lg:w-3/4">
+              <Link
+                href="/education"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Education Center
+              </Link>
 
-            <div className="flex flex-col gap-6">
-              <div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {guide.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="rounded-sm">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-                  {guide.title}
-                </h1>
-                <p className="text-xl text-muted-foreground mb-6">
-                  {guide.excerpt}
-                </p>
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <BookOpen className="h-4 w-4" />
-                    <span>{guide.readTime} read</span>
+              <div className="flex flex-col gap-6">
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {guide.tags.map((tag, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="rounded-sm"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
                   </div>
-                  <Separator orientation="vertical" className="h-4" />
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <ThumbsUp className="h-4 w-4" />
-                    <span>{guide.likes} people found this helpful</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
-                <Image
-                  src={guide.coverImage || "/placeholder.svg"}
-                  alt={guide.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <Button variant="outline" className="gap-2">
-                    <ThumbsUp className="h-4 w-4" />
-                    Helpful
-                  </Button>
-                  <Button variant="outline" className="gap-2">
-                    <MessageSquare className="h-4 w-4" />
-                    Comment
-                  </Button>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" title="Share">
-                    <Share2 className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" title="Bookmark">
-                    <Bookmark className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                {guide.content
-                  .slice(0, contentMiddleIndex)
-                  .map((section, index) => (
-                    <div key={index}>
-                      {section.type === "paragraph" && <p>{section.content}</p>}
-                      {section.type === "heading" && (
-                        <h2 className="text-2xl font-heading font-bold mt-8 mb-4">
-                          {section.content}
-                        </h2>
-                      )}
-                      {section.type === "subheading" && (
-                        <h3 className="text-xl font-heading font-bold mt-6 mb-3">
-                          {section.content}
-                        </h3>
-                      )}
-                      {section.type === "image" && "url" in section && (
-                        <figure className="my-8">
-                          <div className="relative w-full h-[300px] rounded-lg overflow-hidden">
-                            <Image
-                              src={section.url || "/placeholder.svg"}
-                              alt={
-                                ("caption" in section && section.caption) || ""
-                              }
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          {"caption" in section && section.caption && (
-                            <figcaption className="text-center text-sm text-muted-foreground mt-2">
-                              {section.caption}
-                            </figcaption>
-                          )}
-                        </figure>
-                      )}
-                      {section.type === "quote" && (
-                        <blockquote className="border-l-4 border-primary pl-4 italic my-6">
-                          {section.content}
-                          {"author" in section && section.author && (
-                            <footer className="text-sm text-muted-foreground mt-2">
-                              — {section.author}
-                            </footer>
-                          )}
-                        </blockquote>
-                      )}
-                      {section.type === "list" &&
-                        "items" in section &&
-                        section.items && (
-                          <ul className="list-disc pl-6 my-4">
-                            {section.items.map((item, i) => (
-                              <li key={i} className="mb-2">
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      {section.type === "note" && (
-                        <div className="bg-muted p-4 rounded-lg my-6">
-                          <p className="font-medium mb-2">Note</p>
-                          <p className="text-muted-foreground">
-                            {section.content}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                <ArticleAd />
-
-                {guide.content
-                  .slice(contentMiddleIndex)
-                  .map((section, index) => (
-                    <div key={index + contentMiddleIndex}>
-                      {section.type === "paragraph" && <p>{section.content}</p>}
-                      {section.type === "heading" && (
-                        <h2 className="text-2xl font-heading font-bold mt-8 mb-4">
-                          {section.content}
-                        </h2>
-                      )}
-                      {section.type === "subheading" && (
-                        <h3 className="text-xl font-heading font-bold mt-6 mb-3">
-                          {section.content}
-                        </h3>
-                      )}
-                      {section.type === "image" && "url" in section && (
-                        <figure className="my-8">
-                          <div className="relative w-full h-[300px] rounded-lg overflow-hidden">
-                            <Image
-                              src={section.url || "/placeholder.svg"}
-                              alt={
-                                ("caption" in section && section.caption) || ""
-                              }
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          {"caption" in section && section.caption && (
-                            <figcaption className="text-center text-sm text-muted-foreground mt-2">
-                              {section.caption}
-                            </figcaption>
-                          )}
-                        </figure>
-                      )}
-                      {section.type === "quote" && (
-                        <blockquote className="border-l-4 border-primary pl-4 italic my-6">
-                          {section.content}
-                          {"author" in section && section.author && (
-                            <footer className="text-sm text-muted-foreground mt-2">
-                              — {section.author}
-                            </footer>
-                          )}
-                        </blockquote>
-                      )}
-                      {section.type === "list" &&
-                        "items" in section &&
-                        section.items && (
-                          <ul className="list-disc pl-6 my-4">
-                            {section.items.map((item, i) => (
-                              <li key={i} className="mb-2">
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      {section.type === "note" && (
-                        <div className="bg-muted p-4 rounded-lg my-6">
-                          <p className="font-medium mb-2">Note</p>
-                          <p className="text-muted-foreground">
-                            {section.content}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-              </div>
-
-              <Separator />
-
-              <div className="flex justify-between items-center">
-                <Button variant="outline" className="gap-2" asChild>
-                  <Link href="/education">
-                    <ArrowLeft className="h-4 w-4" />
-                    Back to Guides
-                  </Link>
-                </Button>
-                {guide.nextGuide && (
-                  <Button className="gap-2" asChild>
-                    <Link href={`/education/guide/${guide.nextGuide.slug}`}>
-                      {guide.nextGuide.title}
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                )}
-              </div>
-
-              <Card className="bg-muted/30 border-muted">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-heading font-bold mb-4">
-                    Was this guide helpful?
-                  </h3>
-                  <p className="text-muted-foreground mb-4">
-                    Help us improve our educational content by providing
-                    feedback.
+                  <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
+                    {guide.title}
+                  </h1>
+                  <p className="text-xl text-muted-foreground mb-6">
+                    {guide.excerpt}
                   </p>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <BookOpen className="h-4 w-4" />
+                      <span>{guide.readTime} read</span>
+                    </div>
+                    <Separator orientation="vertical" className="h-4" />
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <ThumbsUp className="h-4 w-4" />
+                      <span>{guide.likes} people found this helpful</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
+                  <Image
+                    src={guide.coverImage || "/placeholder.svg"}
+                    alt={guide.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-3">
                     <Button variant="outline" className="gap-2">
                       <ThumbsUp className="h-4 w-4" />
-                      Yes
+                      Helpful
                     </Button>
                     <Button variant="outline" className="gap-2">
                       <MessageSquare className="h-4 w-4" />
-                      Provide Feedback
+                      Comment
                     </Button>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon" title="Share">
+                      <Share2 className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" title="Bookmark">
+                      <Bookmark className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="prose prose-lg dark:prose-invert max-w-none">
+                  {guide.content
+                    .slice(0, contentMiddleIndex)
+                    .map((section, index) => (
+                      <div key={index}>
+                        {section.type === "paragraph" && (
+                          <p>{section.content}</p>
+                        )}
+                        {section.type === "heading" && (
+                          <h2 className="text-2xl font-heading font-bold mt-8 mb-4">
+                            {section.content}
+                          </h2>
+                        )}
+                        {section.type === "subheading" && (
+                          <h3 className="text-xl font-heading font-bold mt-6 mb-3">
+                            {section.content}
+                          </h3>
+                        )}
+                        {section.type === "image" && "url" in section && (
+                          <figure className="my-8">
+                            <div className="relative w-full h-[300px] rounded-lg overflow-hidden">
+                              <Image
+                                src={section.url || "/placeholder.svg"}
+                                alt={
+                                  ("caption" in section && section.caption) ||
+                                  ""
+                                }
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            {"caption" in section && section.caption && (
+                              <figcaption className="text-center text-sm text-muted-foreground mt-2">
+                                {section.caption}
+                              </figcaption>
+                            )}
+                          </figure>
+                        )}
+                        {section.type === "quote" && (
+                          <blockquote className="border-l-4 border-primary pl-4 italic my-6">
+                            {section.content}
+                            {"author" in section && section.author && (
+                              <footer className="text-sm text-muted-foreground mt-2">
+                                — {section.author}
+                              </footer>
+                            )}
+                          </blockquote>
+                        )}
+                        {section.type === "list" &&
+                          "items" in section &&
+                          section.items && (
+                            <ul className="list-disc pl-6 my-4">
+                              {section.items.map((item, i) => (
+                                <li key={i} className="mb-2">
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        {section.type === "note" && (
+                          <div className="bg-muted p-4 rounded-lg my-6">
+                            <p className="font-medium mb-2">Note</p>
+                            <p className="text-muted-foreground">
+                              {section.content}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                  <ArticleAd />
+
+                  {guide.content
+                    .slice(contentMiddleIndex)
+                    .map((section, index) => (
+                      <div key={index + contentMiddleIndex}>
+                        {section.type === "paragraph" && (
+                          <p>{section.content}</p>
+                        )}
+                        {section.type === "heading" && (
+                          <h2 className="text-2xl font-heading font-bold mt-8 mb-4">
+                            {section.content}
+                          </h2>
+                        )}
+                        {section.type === "subheading" && (
+                          <h3 className="text-xl font-heading font-bold mt-6 mb-3">
+                            {section.content}
+                          </h3>
+                        )}
+                        {section.type === "image" && "url" in section && (
+                          <figure className="my-8">
+                            <div className="relative w-full h-[300px] rounded-lg overflow-hidden">
+                              <Image
+                                src={section.url || "/placeholder.svg"}
+                                alt={
+                                  ("caption" in section && section.caption) ||
+                                  ""
+                                }
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            {"caption" in section && section.caption && (
+                              <figcaption className="text-center text-sm text-muted-foreground mt-2">
+                                {section.caption}
+                              </figcaption>
+                            )}
+                          </figure>
+                        )}
+                        {section.type === "quote" && (
+                          <blockquote className="border-l-4 border-primary pl-4 italic my-6">
+                            {section.content}
+                            {"author" in section && section.author && (
+                              <footer className="text-sm text-muted-foreground mt-2">
+                                — {section.author}
+                              </footer>
+                            )}
+                          </blockquote>
+                        )}
+                        {section.type === "list" &&
+                          "items" in section &&
+                          section.items && (
+                            <ul className="list-disc pl-6 my-4">
+                              {section.items.map((item, i) => (
+                                <li key={i} className="mb-2">
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        {section.type === "note" && (
+                          <div className="bg-muted p-4 rounded-lg my-6">
+                            <p className="font-medium mb-2">Note</p>
+                            <p className="text-muted-foreground">
+                              {section.content}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+
+                <Separator />
+
+                <div className="flex justify-between items-center">
+                  <Button variant="outline" className="gap-2" asChild>
+                    <Link href="/education">
+                      <ArrowLeft className="h-4 w-4" />
+                      Back to Guides
+                    </Link>
+                  </Button>
+                  {guide.nextGuide && (
+                    <Button className="gap-2" asChild>
+                      <Link href={`/education/guide/${guide.nextGuide.slug}`}>
+                        {guide.nextGuide.title}
+                        <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+
+                <Card className="bg-muted/30 border-muted">
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-heading font-bold mb-4">
+                      Was this guide helpful?
+                    </h3>
+                    <p className="text-muted-foreground mb-4">
+                      Help us improve our educational content by providing
+                      feedback.
+                    </p>
+                    <div className="flex gap-2">
+                      <Button variant="outline" className="gap-2">
+                        <ThumbsUp className="h-4 w-4" />
+                        Yes
+                      </Button>
+                      <Button variant="outline" className="gap-2">
+                        <MessageSquare className="h-4 w-4" />
+                        Provide Feedback
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            <div className="lg:w-1/4 space-y-6">
+              <SidebarAd />
+
+              <Card>
+                <CardContent className="p-4">
+                  <h3 className="font-medium mb-3">Table of Contents</h3>
+                  <ul className="space-y-2 text-sm">
+                    {guide.content
+                      .filter((section) => section.type === "heading")
+                      .map((section, index) => (
+                        <li key={index} className="hover:text-primary">
+                          <a
+                            href={`#${
+                              section.content
+                                ?.toLowerCase()
+                                .replace(/\s+/g, "-") || `heading-${index}`
+                            }`}
+                          >
+                            {section.content || `Heading ${index + 1}`}
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <SidebarAd />
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-heading font-bold text-center mb-6">
+            Related Guides
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {guide.relatedGuides.map((relatedGuide, index) => (
+              <Card
+                key={index}
+                className="overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <div className="relative">
+                  <Image
+                    src={relatedGuide.image || "/placeholder.svg"}
+                    alt={relatedGuide.title}
+                    width={400}
+                    height={200}
+                    className="w-full h-48 object-cover"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="text-xl font-medium mb-2">
+                    <Link
+                      href={`/education/guide/${relatedGuide.slug}`}
+                      className="hover:text-primary transition-colors"
+                    >
+                      {relatedGuide.title}
+                    </Link>
+                  </h3>
+                  <p className="text-muted-foreground line-clamp-2 mb-4">
+                    {relatedGuide.excerpt}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <BookOpen className="h-4 w-4" />
+                    <span>{relatedGuide.readTime} read</span>
                   </div>
                 </CardContent>
               </Card>
-            </div>
-          </div>
-
-          <div className="lg:w-1/4 space-y-6">
-            <SidebarAd />
-
-            <Card>
-              <CardContent className="p-4">
-                <h3 className="font-medium mb-3">Table of Contents</h3>
-                <ul className="space-y-2 text-sm">
-                  {guide.content
-                    .filter((section) => section.type === "heading")
-                    .map((section, index) => (
-                      <li key={index} className="hover:text-primary">
-                        <a
-                          href={`#${
-                            section.content
-                              ?.toLowerCase()
-                              .replace(/\s+/g, "-") || `heading-${index}`
-                          }`}
-                        >
-                          {section.content || `Heading ${index + 1}`}
-                        </a>
-                      </li>
-                    ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            <SidebarAd />
+            ))}
           </div>
         </div>
-      </div>
 
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-heading font-bold text-center mb-6">
-          Related Guides
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {guide.relatedGuides.map((relatedGuide, index) => (
-            <Card
-              key={index}
-              className="overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              <div className="relative">
-                <Image
-                  src={relatedGuide.image || "/placeholder.svg"}
-                  alt={relatedGuide.title}
-                  width={400}
-                  height={200}
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <CardContent className="p-4">
-                <h3 className="text-xl font-medium mb-2">
-                  <Link
-                    href={`/education/guide/${relatedGuide.slug}`}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {relatedGuide.title}
-                  </Link>
-                </h3>
-                <p className="text-muted-foreground line-clamp-2 mb-4">
-                  {relatedGuide.excerpt}
-                </p>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <BookOpen className="h-4 w-4" />
-                  <span>{relatedGuide.readTime} read</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <FooterAd />
+
+        <div className="container mx-auto">
+          <NewsletterSignup />
         </div>
       </div>
-
-      <FooterAd />
-
-      <div className="container mx-auto">
-        <NewsletterSignup />
-      </div>
-    </div>
+    </>
   );
 }
 
