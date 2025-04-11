@@ -7,6 +7,7 @@ import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import TickerTape from "@/components/trading-view/ticker-tape";
 import Script from "next/script";
+import HilltopAdManager from "@/components/ads/hilltop-ad-manager";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -102,6 +103,8 @@ export default function RootLayout({
             <div className="w-full">{children}</div>
           </main>
           <Footer />
+          {/* Load global ad scripts */}
+          <HilltopAdManager />
         </ThemeProvider>
       </body>
     </html>

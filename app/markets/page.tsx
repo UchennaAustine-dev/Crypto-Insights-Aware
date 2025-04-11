@@ -9,6 +9,8 @@ import MarketOverview from "@/components/trading-view/market-overview";
 import AdvancedChart from "@/components/trading-view/advanced-chart";
 import ArticleAd from "@/components/ads/article-ad";
 import FooterAd from "@/components/ads/footer-ad";
+import HilltopBannerAd from "@/components/ads/hilltop-banner-ad";
+import HilltopInpageAd from "@/components/ads/hilltop-inpage-ad";
 
 export default function MarketsPage() {
   return (
@@ -37,6 +39,7 @@ export default function MarketsPage() {
           </div>
         </div>
 
+        <HilltopBannerAd />
         <ArticleAd />
 
         <Tabs defaultValue="all" className="w-full">
@@ -263,6 +266,7 @@ export default function MarketsPage() {
               </Card>
 
               <ArticleAd />
+              <HilltopInpageAd />
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <MarketOverview height={500} title="Market Overview" />

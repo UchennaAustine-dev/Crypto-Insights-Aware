@@ -26,6 +26,9 @@ import ArticleAd from "@/components/ads/article-ad";
 import FooterAd from "@/components/ads/footer-ad";
 import { createArticleJsonLd, createBreadcrumbJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/json-ld";
+import HilltopInpageAd from "@/components/ads/hilltop-inpage-ad";
+import HilltopBannerAd from "@/components/ads/hilltop-banner-ad";
+import HilltopVideoAd from "@/components/ads/hilltop-video-ad";
 
 interface ArticlePageProps {
   params: {
@@ -221,7 +224,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         )}
                       </div>
                     ))}
-
+                  <HilltopInpageAd className="my-8" />
                   <ArticleAd />
 
                   {article.content
@@ -386,7 +389,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     ))}
                 </CardContent>
               </Card>
-
+              <HilltopVideoAd />
               <SidebarAd />
             </div>
           </div>
@@ -396,6 +399,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <RelatedArticles category={article.category} currentSlug={slug} />
         </div>
 
+        <HilltopBannerAd />
         <FooterAd />
 
         <div className="container mx-auto">
