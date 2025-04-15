@@ -92,6 +92,12 @@ export default function RootLayout({
             gtag('config', 'G-YFF6ZK2CMH');
           `}
         </Script>
+        <Script
+          src="https://kulroakonsu.net/88/tag.min.js"
+          data-zone="142502"
+          async
+          data-cfasync="false"
+        />
       </head>
       <body
         className={`${poppins.variable} ${poiretOne.variable} font-sans min-h-screen flex flex-col`}
